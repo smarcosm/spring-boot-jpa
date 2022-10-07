@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.smarcosm.course.entities.Users;
 import com.smarcosm.course.repositories.UserRepository;
+import com.smarcosm.course.services.exceptions.ResourceNotFoundException;
 
 @Service
 public class UserService {
@@ -21,7 +22,7 @@ public class UserService {
 	
 	public Users findById(Long id) {
 		Optional<Users> obj = repository.findById(id);
-		return obj.get();
+		return obj.orElseThrow(() -> new ResourceNotFoundException(id));
 	}
 	public Users insert(Users obj) {
 		return repository.save(obj);
