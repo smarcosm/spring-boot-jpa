@@ -3,6 +3,8 @@ package com.smarcosm.course.services;
 import java.util.List;
 import java.util.Optional;
 
+import javax.persistence.EntityNotFoundException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -15,21 +17,23 @@ import com.smarcosm.course.services.exceptions.ResourceNotFoundException;
 
 @Service
 public class UserService {
-	
+
 	@Autowired
 	private UserRepository repository;
-	
+
 	public List<Users> findAll() {
 		return repository.findAll();
 	}
-	
+
 	public Users findById(Long id) {
 		Optional<Users> obj = repository.findById(id);
 		return obj.orElseThrow(() -> new ResourceNotFoundException(id));
 	}
+
 	public Users insert(Users obj) {
 		return repository.save(obj);
 	}
+
 	public void delete(Long id) {
 		try {
 			repository.deleteById(id);
@@ -39,10 +43,15 @@ public class UserService {
 			throw new DatabaseException(e.getMessage());
 		}
 	}
+
 	public Users update(Long id, Users obj) {
-		Users entity = repository.getReferenceById(id);
-		updateData(entity, obj);
-		return repository.save(entity);
+		try {
+			Users entity = repository.getReferenceById(id);
+			updateData(entity, obj);
+			return repository.save(entity);
+		} catch (EntityNotFoundException e) {
+			throw new ResourceNotFoundException(id);
+		}
 	}
 
 	private void updateData(Users entity, Users obj) {
@@ -51,8 +60,3 @@ public class UserService {
 		entity.setPhone(obj.getPhone());
 	}
 }
-
-
-
-
-
