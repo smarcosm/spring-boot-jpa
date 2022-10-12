@@ -26,4 +26,4 @@
 
 Sebastião Marcos Mendes
 
-https://www.linkedin.com/feed/
+https://www.linkedin.com/in/sebasti%C3%A3o-marcos-mendes-3156241b6/
