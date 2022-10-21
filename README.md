@@ -20,7 +20,9 @@
 
 - Linguagem: Java 17
 - Framework: Spring Boot
-- Banco de dados: Postgresql
+- Banco de dados: PostgreSQL
+## Serviço na nuvem
+- Heroku
 
 # Autor
 
